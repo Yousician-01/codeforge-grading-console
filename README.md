@@ -4,9 +4,11 @@ A clean, browser-based grading workspace built with Next.js for CodeForge V0.1, 
 
 This is an independent challenge project, not an official BITS grading tool.
 
+**Live app:** [https://codeforge-grading-console.vercel.app/](https://codeforge-grading-console.vercel.app/)
+
 ## Run locally
 
-Use Node.js 20.9 or later:
+Use Node.js 22 to match CI (the package minimum is 20.9):
 
 ```sh
 npm ci
@@ -33,6 +35,7 @@ npm start
 - Search student IDs, filter grades, sort marks and filter students within two percentage points of a cutoff. See the distance and raw marks needed for the next grade.
 - Explicitly save, resume, update and delete up to five drafts in this browser.
 - Preview and reconcile every student before downloading a course-specific CSV with raw marks, maximum marks, percentage and grade.
+- Subtle entrance animations and control transitions respect the device's reduced-motion preference.
 
 Files are processed in browser memory. **Saved drafts** stores a copy on this device only when you choose to save. Refreshing clears the open workspace; you can then resume a saved copy. Later edits are not saved automatically. Drafts contain student records and are accessible to anyone using the same browser profile. No student data is uploaded to a server, and the app does not require accounts.
 
@@ -50,6 +53,7 @@ Marks must be nonnegative whole numbers. After upload, confirm the maximum possi
 - [Sample Excel workbook](tests/fixtures/grading-sample.xlsx)
 - [Multi-worksheet mapping example](tests/fixtures/multiple-worksheets.xlsx)
 - [Expected sample results](tests/fixtures/README.md)
+- [Final testing guide: five subjects, valid and invalid CSV datasets](tests/fixtures/FINAL_TESTING_GUIDE.md)
 
 CSV and JSON templates are available inside **Import guide**.
 
@@ -60,15 +64,17 @@ npm test
 npm run test:e2e
 ```
 
-The browser suite uses an installed Google Chrome browser and starts the development server automatically. It can reuse an existing server on port 3000. Install Chrome first if unavailable, or configure Playwright for another installed browser.
+The browser suite uses Google Chrome and starts the development server automatically. Outside CI it can reuse an existing server on port 3000. If Chrome is unavailable, install it with `npx playwright install --with-deps chrome` (also used by CI).
 
 The logic suite covers the original prototype and the new data/grading modules. Browser checks cover real file imports, downloads, mobile layout and automated WCAG AA rules. Desktop/mobile screenshots are generated under `test-results/` and are not committed.
+
+Accessibility scans wait for fonts and finite animations to settle before measuring contrast. Motion remains enabled during browser tests; automated checks do not replace manual screen-reader testing.
 
 ## Continuous integration
 
 [App CI](.github/workflows/ci.yml) runs on every push and pull request, and can also be started manually from GitHub's Actions tab. It uses Node.js 22, installs locked dependencies with `npm ci`, runs the logic tests, builds the production app, and runs the Chrome browser/accessibility suite against the development server. Failed runs retain available browser diagnostics for seven days.
 
-Commit and push the workflow to enable it on GitHub. No repository secrets are required.
+No repository secrets are required. Check the repository's Actions tab for the result on a specific commit; local test results do not establish that a GitHub run passed. CI validates the app but does not deploy it.
 
 ## Project structure
 
@@ -85,6 +91,6 @@ Commit and push the workflow to enable it on GitHub. No repository secrets are r
 
 - [Stage 1 bug fix log and author's manual verification](docs/BUG_FIX_LOG.md)
 - [Next.js migration, feature details and limitations](docs/NEXTJS_MIGRATION.md)
-- [Product roadmap and remaining deployment work](docs/PRODUCT_ROADMAP.md)
+- [Product roadmap and deployment status](docs/PRODUCT_ROADMAP.md)
 
-The Next.js app is ready for local review; it has not been publicly deployed. The original HTML remains independently runnable and retains its original CDN dependency.
+The Next.js app is deployed on [Vercel](https://codeforge-grading-console.vercel.app/). The original HTML remains independently runnable and retains its original CDN dependency.

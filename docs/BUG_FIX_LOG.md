@@ -2,7 +2,7 @@
 
 This log documents the original HTML prototype. For the rebuilt application and its separate automated browser verification, see [the Next.js migration report](NEXTJS_MIGRATION.md).
 
-Scope: fixes to `BITS_Digital_CodeForge_Challenge.html`. The supplied brief describes the challenge; the user's current request is to debug this file and document the fixes. Product expansion and Next.js deployment are later stages.
+Scope: fixes to `BITS_Digital_CodeForge_Challenge.html` during Stage 1. This is a historical record of the original debugging work. The Next.js product rebuild is now implemented separately; the behavior and limitations below describe only the preserved HTML prototype.
 
 The reproduction column describes workflows that expose the original code defects, identified through source inspection. Automated verification executes the fixed HTML's actual inline JavaScript using Node's test runner and a small DOM adapter. It does **not** constitute a real-browser, real-workbook, or visual test. The project author has separately confirmed that all browser checks below were completed successfully.
 
@@ -52,11 +52,11 @@ Recorded result: **14 tests passed, 0 failed**. The harness stubs the browser DO
 8. **Passed.** At 375px width, check that controls stack without horizontal page overflow. Tab through controls, check visible focus and accessible names, and inspect live error/status announcements with a screen reader.
 9. **Passed.** Disable network access and reload without a cached Excel reader. Attempt upload; expect an actionable dependency error.
 
-## Remaining limitations
+## Remaining limitations of the Stage 1 HTML
 
 - Excel reading still depends on the original externally hosted SheetJS script; offline packaging and dependency review remain deployment work.
 - Only the first worksheet is imported. A status message explicitly discloses ignored worksheets. Only `.xlsx` is supported at this stage.
 - Store identifiers as text in Excel if leading zeros matter. Formatting or precision already lost in numeric source cells cannot be recovered reliably.
-- Changing course resets grade ranges, matching the original workflow. Per-course saved drafts and persistence are future product features.
+- Changing course resets grade ranges, matching the original workflow. The separate Next.js app now retains per-course settings and supports explicitly saved local drafts.
 - CSV importers can infer identifier types differently. Check identifiers after importing; quoting does not universally force text types.
 - This is a challenge prototype, not an official academic grading system. The browser checklist above passed according to the project author’s manual verification.

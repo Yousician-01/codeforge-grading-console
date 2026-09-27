@@ -14,7 +14,8 @@ The active application is now a Next.js workspace with a redesigned responsive i
 - **Grading:** per-course session settings, reset, undo, complete grade coverage and before/after impact review; post-import course-total correction.
 - **Exports:** preview, student reconciliation, all-course-record export regardless of table filters, course-specific filenames and escaped CSV content.
 - **Drafts:** explicit on-device saving, resuming, updating and deletion, with validation of restored data.
-- **Usability:** responsive layout, labeled controls, visible keyboard focus, accessible dialogs and local fonts.
+- **Usability:** responsive layout, labeled controls, visible keyboard focus, accessible dialogs, local fonts and subtle animations with reduced-motion support.
+- **Verification:** GitHub Actions runs logic tests, a production build and Chrome browser/accessibility tests on pushes and pull requests. Failure diagnostics are retained for seven days. Five-subject valid/invalid CSV fixtures support final manual testing.
 
 See [migration details](NEXTJS_MIGRATION.md) for intentional behavior changes, data handling and limits.
 

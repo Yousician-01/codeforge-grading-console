@@ -10,7 +10,7 @@
 
 [grading-sample.xlsx](grading-sample.xlsx) contains fictional student IDs and the exact marks used in the browser verification checklist. All identifiers are stored as text and marks as numbers.
 
-Upload it to the grading console, enter an instructor name, and select a course.
+Upload it to the grading console, enter an instructor name, and select a course. In the Next.js app, first confirm the default maximum of 100 for both courses; the Stage 1 HTML has no course-total confirmation step.
 
 | Course | Students | Min | Max | Average | Median | Default grades |
 | --- | --- | --- | --- | --- | --- | --- |

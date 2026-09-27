@@ -171,7 +171,7 @@ test('per-course maxima normalize raw scores, block invalid totals and preserve 
   await page.getByRole('button', { name: 'Confirm & import' }).click();
   await expect(page.locator('.error-box')).toContainText('positive whole number');
   await page.getByLabel('Maximum marks for Physics', { exact: true }).fill('200');
-  const accessibility = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze();
+  const accessibility = await analyzeAccessibility(page);
   expect(accessibility.violations).toEqual([]);
   await page.getByRole('button', { name: 'Confirm & import' }).click();
   await expect(page.getByTestId('stat-0')).toHaveText('2');

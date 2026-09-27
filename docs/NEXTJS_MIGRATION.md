@@ -31,6 +31,7 @@ The active application is now **Gradecraft**, a Next.js App Router app. The Stag
 - Grade settings retained per course **for this browser session**, with up to 30 undo steps per course. This intentionally improves on the original reset-on-course-switch behavior.
 - Export review dialog with record reconciliation, grade counts, a preview and a course-specific filename. Filtering the student table never filters the export.
 - Responsive sidebar/header, mobile stacking, accessible labels, keyboard focus, live validation messages, and native dialogs.
+- CSS entrance fades, dialog pop-ins, chart and control transitions, with animations and transitions disabled for reduced-motion preferences.
 - Dependencies and fonts installed locally and pinned through `package-lock.json`; the Next.js app does not use the original external SheetJS CDN.
 
 ## Input contract
@@ -70,7 +71,13 @@ CSV importers can still infer identifier types differently. The file protects fo
 
 ## Verification
 
-Recorded on this revision: **34 logic tests passed, 18 Chrome browser tests passed, and the production build passed.** Browser coverage includes worksheet selection, mapping, course-total correction, impact review, draft persistence/deletion/failures, cutoff filtering, normalization, cancellation, boundary grades and CSV evidence. Automated WCAG A/AA checks reported no violations on the populated workspace, import guide, mapping, draft, impact, course-total confirmation and export dialogs. Desktop and 375px mobile screenshots were inspected.
+Recorded local verification before the CI timing fix: **34 logic tests passed, 18 Chrome browser tests passed, and the production build passed.** Browser coverage includes worksheet selection, mapping, course-total correction, impact review, draft persistence/deletion/failures, cutoff filtering, normalization, cancellation, boundary grades and CSV evidence. Automated WCAG A/AA checks reported no violations on the populated workspace, import guide, mapping, draft, impact, course-total confirmation and export dialogs. Desktop and 375px mobile screenshots were inspected.
+
+A subsequent GitHub run caught two contrast scans during translucent animation frames. The shared `tests/browser/accessibility.js` helper now waits for fonts and finite animations to finish before running axe, without disabling motion or accessibility rules. Both affected tests passed three consecutive local runs each after this fix. These results are historical verification, not a claim that every later revision or GitHub run passed.
+
+[App CI](../.github/workflows/ci.yml) uses Node.js 22 and runs locked dependency installation, logic tests, the production build and Chrome browser tests on pushes, pull requests and manual dispatch. Browser tests use the development server; the build is checked separately. Available failure diagnostics are uploaded for seven days. Deployment is not part of this workflow.
+
+The [final testing guide](../tests/fixtures/FINAL_TESTING_GUIDE.md) supplies five-subject valid and invalid CSV datasets, course maxima, expected analytics and validation errors.
 
 `npm test` runs the original 14 regression tests, 13 product tests and 7 workflow tests, including real Excel fixtures and equivalent CSV/TSV/JSON data. `npm run test:e2e` runs Chrome browser checks for ingestion, errors, statistics, grading, saved drafts, search, pagination, native downloads, modal keyboard interaction, mobile overflow and automated accessibility checks. It also creates desktop/mobile screenshots in the ignored `test-results` directory.
 
