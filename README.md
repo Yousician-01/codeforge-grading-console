@@ -64,6 +64,12 @@ The browser suite uses an installed Google Chrome browser and starts the develop
 
 The logic suite covers the original prototype and the new data/grading modules. Browser checks cover real file imports, downloads, mobile layout and automated WCAG AA rules. Desktop/mobile screenshots are generated under `test-results/` and are not committed.
 
+## Continuous integration
+
+[App CI](.github/workflows/ci.yml) runs on every push and pull request, and can also be started manually from GitHub's Actions tab. It uses Node.js 22, installs locked dependencies with `npm ci`, runs the logic tests, builds the production app, and runs the Chrome browser/accessibility suite against the development server. Failed runs retain available browser diagnostics for seven days.
+
+Commit and push the workflow to enable it on GitHub. No repository secrets are required.
+
 ## Project structure
 
 | Location | Purpose |
