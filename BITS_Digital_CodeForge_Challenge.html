@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>BITS Pilani Digital – Advanced Grading Console</title>
 <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
 
@@ -206,6 +207,14 @@ button.enabled{
 @media (prefers-reduced-motion: reduce){
   .grade.lift{transform:translateY(-2px);}
 }
+canvas{max-width:100%;height:auto;}
+.controls>*{min-width:0;}
+:focus-visible{outline:3px solid #5b3cc4;outline-offset:3px;}
+@media(max-width:800px){
+  .workspace,.controls{grid-template-columns:1fr;}
+  .file-guidance{grid-column:auto;}
+  .actions{flex-wrap:wrap;}
+}
 </style>
 </head>
 
@@ -218,9 +227,9 @@ button.enabled{
 </header>
 
 <div class="controls">
-  <input id="instructor" placeholder="Instructor name (mandatory)">
-  <input type="file" id="file" accept=".xls">
-  <select id="course"><option value="">Select a course to begin</option></select>
+  <input id="instructor" aria-label="Instructor name" required placeholder="Instructor name (mandatory)">
+  <input type="file" id="file" aria-label="Marks workbook" accept=".xlsx">
+  <select id="course" aria-label="Course" disabled><option value="">Select a course to begin</option></select>
 
   <!-- Optional, calm guidance BELOW file upload -->
   <details class="file-guidance">
@@ -231,7 +240,7 @@ button.enabled{
     </p>
     <p>
       Total Marks should be entered as whole numbers. Fractional values
-      should be rounded to the nearest integer (for example, 80.2 → 81).
+      are not accepted; use whole numbers from 0 to 100.
     </p>
     <p>
       Students who did not appear for the trimester-end examination and are
@@ -244,16 +253,17 @@ button.enabled{
   </details>
 </div>
 
+<div id="uploadStatus" role="status" class="notice"></div>
 <div id="welcome" class="notice"></div>
 
 <div class="workspace">
   <!-- ANALYTICS -->
   <div class="panel">
-    <canvas id="hist" width="380" height="240"></canvas>
+    <canvas id="hist" role="img" aria-label="Marks histogram; statistics and grade counts follow" width="380" height="240"></canvas>
 
     <div class="stats">
-      <div class="stat">Min<br><b id="max"></b></div>
-      <div class="stat">Max<br><b id="min"></b></div>
+      <div class="stat">Min<br><b id="min"></b></div>
+      <div class="stat">Max<br><b id="max"></b></div>
       <div class="stat">Avg<br><b id="avg"></b></div>
       <div class="stat">Median<br><b id="med"></b></div>
     </div>
@@ -264,7 +274,7 @@ button.enabled{
   <!-- GRADING -->
   <div class="panel">
     <div class="grade-grid" id="grades"></div>
-    <div class="error" id="rangeError"></div>
+    <div class="error" id="rangeError" role="status"></div>
 
     <div class="actions">
       <button class="secondary" id="resetRanges">Reset Range</button>
@@ -292,35 +302,32 @@ button.enabled{
 </div>
 
 <script>
-/* ===== TIMER (LOCKED) ===== */
-const gradingStartTime = Date.now();
+// Resolve DOM elements explicitly rather than relying on window named properties.
+const ids=["file","course","instructor","welcome","grades","rangeError","download",
+  "hist","min","max","avg","med","gradeSummary","resetRanges","thankyou","uploadStatus"];
+const elements=Object.fromEntries(ids.map(id=>[id,document.getElementById(id)]));
+const {file,course,instructor,welcome,grades,rangeError,download,hist,min,max,avg,med,
+  gradeSummary,resetRanges,thankyou,uploadStatus}=elements;
+let gradingStartTime=null;
 let timerInterval=null;
-const circumference = 2 * Math.PI * 40;
-
-function startTimer(){
+const circumference=2*Math.PI*40;
+function renderTimer(){
+  const elapsed=gradingStartTime===null?0:Date.now()-gradingStartTime;
+  document.getElementById("timerText").textContent=
+    String(Math.floor(elapsed/60000)).padStart(2,"0")+":"+
+    String(Math.floor(elapsed%60000/1000)).padStart(2,"0");
   const arc=document.getElementById("timerArc");
-  const text=document.getElementById("timerText");
-
-  timerInterval=setInterval(()=>{
-    const elapsed = Date.now() - gradingStartTime;
-    const min = Math.floor(elapsed/60000);
-    const sec = Math.floor((elapsed%60000)/1000);
-
-    text.innerText =
-      String(min).padStart(2,"0")+":"+String(sec).padStart(2,"0");
-
-    const progress = Math.min(elapsed/3600000,1);
-    arc.style.strokeDashoffset =
-      circumference * (1-progress);
-  },1000);
+  arc.style.strokeDasharray=circumference;
+  arc.style.strokeDashoffset=circumference*(1-Math.min(elapsed/3600000,1));
 }
-
-document.addEventListener("DOMContentLoaded",()=>{
-  // CodeForge challenge bug: timer display waits for the first interval tick.
-  startTimer();
-});
-
-/* ===== EVERYTHING BELOW IS LOCKED (VERBATIM) ===== */
+function resetSession(active=false){
+  clearInterval(timerInterval);
+  gradingStartTime=active?Date.now():null;
+  finalizeCount=0;
+  thankyou.textContent="";
+  renderTimer();
+  if(active) timerInterval=setInterval(renderTimer,1000);
+}
 
 const GRADES=["A","A-","B","B-","C","C-","D","E"];
 const DEFAULTS={
@@ -332,29 +339,79 @@ let data=[];
 let previousSummary={};
 let finalizeCount = 0;
 
-file.onchange=e=>{
-  // CodeForge challenge bug: stale course options can survive a second upload.
-  const r=new FileReader();
-  r.onload=ev=>{
-    const wb=XLSX.read(ev.target.result,{type:"binary"});
-    data=XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]);
-    data.map(d=>d.Course).forEach(c=>{
-      course.add(new Option(c,c));
-    });
-  };
-  r.readAsBinaryString(e.target.files[0]);
-};
-
-course.onchange=()=>{
-  if(!instructor.value.trim()){
-    alert("Please enter instructor name first");
-    course.value="";
-    return;
-  }
-  welcome.innerText=`Welcome ${instructor.value.toUpperCase()}. Please review and finalize grading.`;
+// Reject the entire workbook on an invalid row: never silently drop students.
+function parseRows(rows){
+  const required=["BITS ID","Course","Total Marks"];
+  if(!rows.length) throw new Error("The first worksheet is empty.");
+  const headers=rows[0].map(v=>String(v??"").trim());
+  if(headers.length!==3 || required.some(h=>headers.filter(v=>v===h).length!==1))
+    throw new Error("Expected exactly these columns: BITS ID, Course, Total Marks.");
+  const seen=new Set();
+  const result=[];
+  rows.slice(1).forEach((row,index)=>{
+    if(row.every(v=>v===null || v===undefined || String(v).trim()==="")) return;
+    const record=Object.fromEntries(headers.map((h,i)=>[h,row[i]]));
+    const id=String(record["BITS ID"]??"").trim();
+    const name=String(record.Course??"").trim();
+    const raw=record["Total Marks"];
+    const mark=typeof raw==="number"?raw:
+      typeof raw==="string" && /^\d+(?:\.0+)?$/.test(raw.trim())?Number(raw):NaN;
+    const prefix=`Row ${index+2}: `;
+    if(!id || !name) throw new Error(prefix+"BITS ID and Course are required.");
+    if(!Number.isInteger(mark) || mark<0 || mark>100)
+      throw new Error(prefix+"Total Marks must be a whole number from 0 to 100.");
+    if(row.slice(3).some(v=>v!==null && v!==undefined && String(v).trim()!==""))
+      throw new Error(prefix+"Unexpected extra columns.");
+    const key=JSON.stringify([id,name]);
+    if(seen.has(key)) throw new Error(prefix+"Duplicate BITS ID within the same course.");
+    seen.add(key);
+    result.push({"BITS ID":id,Course:name,"Total Marks":mark});
+  });
+  if(!result.length) throw new Error("The first worksheet contains no student records.");
+  return result;
+}
+let uploadVersion=0;
+file.onchange=async e=>{
+  const version=++uploadVersion;
+  const selected=e.target.files[0];
+  data=[];
+  course.replaceChildren(new Option("Select a course to begin",""));
+  course.disabled=true;
+  welcome.textContent="";
+  previousSummary={};
   buildGradeUI();
+  resetSession();
+  updateAll();
+  uploadStatus.textContent="";
+  if(!selected) return;
+  uploadStatus.textContent="Reading workbook…";
+  try{
+    if(!/\.xlsx$/i.test(selected.name)) throw new Error("Choose an Excel .xlsx workbook.");
+    if(typeof XLSX==="undefined") throw new Error("The Excel reader did not load. Check your connection and reload the page.");
+    const buffer=await selected.arrayBuffer();
+    if(version!==uploadVersion) return;
+    const wb=XLSX.read(buffer,{type:"array"});
+    if(!wb.SheetNames.length) throw new Error("The workbook has no worksheets.");
+    const rows=XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]],{header:1,defval:null,raw:true});
+    data=parseRows(rows);
+    [...new Set(data.map(d=>d.Course))].forEach(c=>course.add(new Option(c,c)));
+    course.disabled=false;
+    uploadStatus.textContent=`Loaded ${data.length} students from the first worksheet`+
+      (wb.SheetNames.length>1?`; ${wb.SheetNames.length-1} other worksheet(s) were not imported.`:".");
+  }catch(error){
+    if(version===uploadVersion){
+      uploadStatus.textContent="Upload failed: "+error.message;
+      file.value="";
+    }
+  }
+};
+course.onchange=()=>{
+  previousSummary={};
+  buildGradeUI();
+  resetSession(!!course.value);
   updateAll();
 };
+instructor.oninput=()=>updateAll();
 
 function cascadeMaxFrom(index){
   for(let i=index+1;i<GRADES.length;i++){
@@ -378,6 +435,8 @@ function buildGradeUI(){
     }
 
     minSel.id=g+"min";
+    minSel.setAttribute("aria-label",g+" minimum mark");
+    maxSel.setAttribute("aria-label",g+" maximum mark");
     maxSel.id=g+"max";
 
     minSel.onchange=()=>{
@@ -408,7 +467,6 @@ function buildGradeUI(){
 
 resetRanges.onclick=()=>{
   if(!confirm("This will reset all grade ranges to the default values.\nDo you want to continue?")) return;
-  if(!confirm("Reset grade ranges now?")) return;
   GRADES.forEach(g=>{
     document.getElementById(g+"min").value=DEFAULTS[g][0];
     document.getElementById(g+"max").value=DEFAULTS[g][1];
@@ -419,9 +477,13 @@ resetRanges.onclick=()=>{
 function validateRanges(){
   for(let i=0;i<GRADES.length;i++){
     const g=GRADES[i];
-    const minV=+document.getElementById(g+"min").value;
-    const maxV=+document.getElementById(g+"max").value;
-    if(minV>=maxV) return "Each grade must have Min < Max.";
+    const minRaw=document.getElementById(g+"min").value;
+    const maxRaw=document.getElementById(g+"max").value;
+    const minV=Number(minRaw), maxV=Number(maxRaw);
+    if(minRaw==="" || maxRaw==="" || !Number.isInteger(minV) || !Number.isInteger(maxV) || minV<0 || maxV>100 || minV>maxV)
+      return "Each grade needs whole-number bounds from 0 to 100 with Min <= Max.";
+    if(i===0 && maxV!==100 || i===GRADES.length-1 && minV!==0)
+      return "Grade ranges must cover every mark from 0 to 100.";
     if(i>0){
       const prevMin=+document.getElementById(GRADES[i-1]+"min").value;
       if(maxV!==prevMin-1) return "Grade ranges must be continuous with no gaps or overlaps.";
@@ -433,8 +495,13 @@ function validateRanges(){
 function updateAll(){
   const err=validateRanges();
   rangeError.innerText=err;
-  download.disabled=!!err;
-  if(!err) download.classList.add("enabled");
+  const hasStudents=data.some(d=>d.Course===course.value);
+  download.disabled=!!err || !hasStudents || !instructor.value.trim();
+  welcome.textContent=course.value?(instructor.value.trim()?
+    `Welcome ${instructor.value.trim()}. Please review and finalize grading.`:
+    "Enter an instructor name before downloading grades."):"";
+  thankyou.textContent="";
+  if(!download.disabled) download.classList.add("enabled");
   else download.classList.remove("enabled");
   drawHistogram();
   computeStats();
@@ -444,55 +511,34 @@ function updateAll(){
 function drawHistogram(){
   const ctx=hist.getContext("2d");
   ctx.clearRect(0,0,380,240);
-
   const marks=data.filter(d=>d.Course===course.value).map(d=>d["Total Marks"]);
   if(!marks.length) return;
-
-  let bins=Array(10).fill(0);
+  const bins=Array(10).fill(0);
   marks.forEach(m=>bins[Math.min(9,Math.floor(m/10))]++);
-
-  let start=null;
-  function animate(ts){
-    if(!start) start=ts;
-    const p=Math.min((ts-start)/400,1);
-    ctx.clearRect(0,0,380,240);
-
-    bins.forEach((v,i)=>{
-      const h=v*12*p;
-      ctx.fillStyle="#5b3cc4";
-      ctx.fillRect(30+i*32,210-h,24,h);
-      ctx.fillStyle="#111827";
-      ctx.font="10px Arial";
-      ctx.fillText(`${i*10}-${i*10+10}`,30+i*32,228);
-    });
-
-    drawBellCurve(ctx, marks, p);
-
-    if(p<1) requestAnimationFrame(animate);
-  }
-  requestAnimationFrame(animate);
-}
-
-function drawBellCurve(ctx, marks, progress){
-  const mean=marks.reduce((a,b)=>a+b,0)/marks.length;
-  const std=Math.sqrt(marks.reduce((a,b)=>a+(b-mean)**2,0)/marks.length);
-  ctx.strokeStyle="#dc2626";
-  ctx.lineWidth=2;
-  ctx.beginPath();
-  const maxX=Math.floor(100*progress);
-  for(let x=0;x<=maxX;x++){
-    const y=(1/(std*Math.sqrt(2*Math.PI)))*
-      Math.exp(-0.5*((x-mean)/std)**2);
-    const px=30+(x/10)*30;
-    const py=210-y*3000;
-    x===0?ctx.moveTo(px,py):ctx.lineTo(px,py);
-  }
-  ctx.stroke();
+  const peak=Math.max(...bins);
+  bins.forEach((v,i)=>{
+    const h=v/peak*170;
+    ctx.fillStyle="#5b3cc4";
+    ctx.fillRect(20+i*36,210-h,28,h);
+    ctx.fillStyle="#111827";
+    ctx.font="9px Arial";
+    ctx.fillText(`${i*10}-${i===9?100:i*10+9}`,20+i*36,228);
+    ctx.fillText(String(v),20+i*36,Math.max(12,205-h));
+  });
+  // Empirical counts only: the old unscaled normal curve was misleading and
+  // divided by zero for a single student or an equal-mark cohort.
+  hist.setAttribute("aria-label","Marks histogram: "+bins.map((v,i)=>
+    `${i*10} to ${i===9?100:i*10+9}: ${v} students`).join("; "));
 }
 
 function computeStats(){
   const m=data.filter(d=>d.Course===course.value)
     .map(d=>d["Total Marks"]).sort((a,b)=>a-b);
+  if(!m.length){
+    [min,max,avg,med].forEach(el=>el.textContent="—");
+    hist.setAttribute("aria-label","No marks to display");
+    return;
+  }
   min.textContent=m[0];
   max.textContent=m[m.length-1];
   avg.textContent=(m.reduce((a,b)=>a+b,0)/m.length).toFixed(2);
@@ -501,6 +547,11 @@ function computeStats(){
 }
 
 function computeGradeSummary(){
+  if(validateRanges()){
+    gradeSummary.textContent="Fix grade ranges to view the distribution.";
+    previousSummary={};
+    return;
+  }
   let counts={}; GRADES.forEach(g=>counts[g]=0);
   data.filter(d=>d.Course===course.value).forEach(d=>{
     for(const g of GRADES){
@@ -524,42 +575,43 @@ function computeGradeSummary(){
   });
 }
 
-download.onclick=()=>{
-  finalizeCount++;
-  clearInterval(timerInterval);
-
-  const elapsed = Date.now() - gradingStartTime;
-  const minT=Math.floor(elapsed/60000);
-  const secT=Math.floor((elapsed%60000)/1000);
-
-  let csv=`Instructor,${instructor.value}\nCourse, ${course.value}\n\nBITS ID,Total Marks,Grade\n`;
-  data.filter(d=>d.Course===course.value).forEach(d=>{
-    for(const g of GRADES){
-      const mi=+document.getElementById(g+"min").value;
-      const ma=+document.getElementById(g+"max").value;
-      if(d["Total Marks"]>=mi && d["Total Marks"]<=ma){
-        csv+=`${d["BITS ID"]},${d["Total Marks"]},${g}\n`;
-        break;
-      }
-    }
+function csvCell(value){
+  let text=String(value);
+  // Quoting alone does not stop spreadsheet formula interpretation.
+  if(/^[\s]*[=+@-]|^[\t\r\n]/.test(text)) text="'"+text;
+  return '"'+text.replace(/"/g,'""')+'"';
+}
+function buildCSV(){
+  const err=validateRanges();
+  const students=data.filter(d=>d.Course===course.value);
+  if(err || !instructor.value.trim() || !students.length)
+    throw new Error(err || "Enter an instructor name and select a course with students.");
+  const rows=[["Instructor",instructor.value.trim()],["Course",course.value],[],["BITS ID","Total Marks","Grade"]];
+  students.forEach(d=>{
+    const grade=GRADES.find(g=>d["Total Marks"]>=Number(document.getElementById(g+"min").value)
+      && d["Total Marks"]<=Number(document.getElementById(g+"max").value));
+    if(!grade) throw new Error("A student has no grade. Review the ranges.");
+    rows.push([d["BITS ID"],d["Total Marks"],grade]);
   });
-
+  return "\uFEFF"+rows.map(row=>row.map(csvCell).join(",")).join("\r\n")+"\r\n";
+}
+download.onclick=()=>{
+  let csv;
+  try{csv=buildCSV();}catch(error){rangeError.textContent=error.message;return;}
   const a=document.createElement("a");
-  a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv"}));
+  const url=URL.createObjectURL(new Blob([csv],{type:"text/csv;charset=utf-8"}));
+  a.href=url;
   a.download="grades.csv";
+  document.body.appendChild(a);
   a.click();
-
-  if(finalizeCount === 1){
-    thankyou.innerText =
-      `You completed grading in ${minT} min ${secT} sec in your first attempt.`;
-  } else {
-    const suffix = finalizeCount === 2 ? "second"
-                  : finalizeCount === 3 ? "third"
-                  : finalizeCount + "th";
-    thankyou.innerText =
-      `You took a total of ${minT} min ${secT} sec to complete the grading in your ${suffix} attempt.`;
-  }
+  a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+  finalizeCount++;
+  thankyou.textContent=`Export ${finalizeCount} prepared for ${course.value}. The session timer continues while you review.`;
 };
+buildGradeUI();
+resetSession();
+updateAll();
 </script>
 </body>
 </html>
