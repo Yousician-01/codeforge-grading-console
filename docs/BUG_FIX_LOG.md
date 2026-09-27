@@ -1,5 +1,7 @@
 # Stage 1 — Bug fix log
 
+This log documents the original HTML prototype. For the rebuilt application and its separate automated browser verification, see [the Next.js migration report](NEXTJS_MIGRATION.md).
+
 Scope: fixes to `BITS_Digital_CodeForge_Challenge.html`. The supplied brief describes the challenge; the user's current request is to debug this file and document the fixes. Product expansion and Next.js deployment are later stages.
 
 The reproduction column describes workflows that expose the original code defects, identified through source inspection. Automated verification executes the fixed HTML's actual inline JavaScript using Node's test runner and a small DOM adapter. It does **not** constitute a real-browser, real-workbook, or visual test. The project author has separately confirmed that all browser checks below were completed successfully.

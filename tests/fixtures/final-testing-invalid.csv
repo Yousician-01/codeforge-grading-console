@@ -1,0 +1,302 @@
+BITS ID,Course,Total Marks
+DEMO2026DS001,Mathematics for Data Science,0
+DEMO2026DS002,Mathematics for Data Science,600
+DEMO2026DS003,Mathematics for Data Science,119
+DEMO2026DS004,Mathematics for Data Science,120
+DEMO2026DS005,Mathematics for Data Science,179
+DEMO2026DS006,Mathematics for Data Science,180
+DEMO2026DS007,Mathematics for Data Science,239
+DEMO2026DS008,Mathematics for Data Science,-5
+DEMO2026DS009,Mathematics for Data Science,299
+DEMO2026DS010,Mathematics for Data Science,300
+DEMO2026DS011,Mathematics for Data Science,359
+DEMO2026DS012,Mathematics for Data Science,360
+DEMO2026DS013,Mathematics for Data Science,419
+DEMO2026DS014," mathematics for data science ",80.5
+DEMO2026DS015,Mathematics for Data Science,479
+DEMO2026DS016,Mathematics for Data Science,480
+DEMO2026DS017,Mathematics for Data Science,372
+DEMO2026DS018,Mathematics for Data Science,474
+DEMO2026DS019,Mathematics for Data Science,270
+DEMO2026DS020,Mathematics for Data Science,Absent
+DEMO2026DS021,Mathematics for Data Science,474
+DEMO2026DS022,Mathematics for Data Science,270
+DEMO2026DS023,Mathematics for Data Science,372
+DEMO2026DS024,Mathematics for Data Science,474
+DEMO2026DS025,Mathematics for Data Science,270
+DEMO2026DS026,Mathematics for Data Science,NC
+DEMO2026DS027," mathematics for data science ",474
+DEMO2026DS028,Mathematics for Data Science,270
+DEMO2026DS029,Mathematics for Data Science,372
+DEMO2026DS030,Mathematics for Data Science,474
+DEMO2026DS031,Mathematics for Data Science,270
+DEMO2026DS032,Mathematics for Data Science,
+DEMO2026DS033,Mathematics for Data Science,474
+DEMO2026DS034,Mathematics for Data Science,270
+DEMO2026DS035,Mathematics for Data Science,372
+DEMO2026DS036,Mathematics for Data Science,474
+DEMO2026DS037,Mathematics for Data Science,270
+DEMO2026DS038,Mathematics for Data Science,372
+DEMO2026DS039,Mathematics for Data Science,474
+DEMO2026DS040," mathematics for data science ",270
+DEMO2026DS041,Mathematics for Data Science,372
+DEMO2026DS042,Mathematics for Data Science,474
+DEMO2026DS043,Mathematics for Data Science,270
+DEMO2026DS044,Mathematics for Data Science,372
+DEMO2026DS045,Mathematics for Data Science,474
+DEMO2026DS046,Mathematics for Data Science,270
+DEMO2026DS047,Mathematics for Data Science,372
+DEMO2026DS048,Mathematics for Data Science,474
+DEMO2026DS049,Mathematics for Data Science,270
+DEMO2026DS050,Mathematics for Data Science,372
+DEMO2026DS051,Mathematics for Data Science,474
+DEMO2026DS052,Mathematics for Data Science,270
+DEMO2026DS053," mathematics for data science ",372
+DEMO2026DS054,Mathematics for Data Science,474
+DEMO2026DS055,Mathematics for Data Science,270
+DEMO2026DS056,Mathematics for Data Science,372
+DEMO2026DS057,Mathematics for Data Science,474
+DEMO2026DS058,Mathematics for Data Science,270
+DEMO2026DS059,Mathematics for Data Science,372
+DEMO2026DS060,Mathematics for Data Science,474
+DEMO2026DS001,Probability and Statistics,0
+DEMO2026DS002,Probability and Statistics,200
+DEMO2026DS003,Probability and Statistics,39
+DEMO2026DS004,Probability and Statistics,40
+DEMO2026DS005,Probability and Statistics,59
+DEMO2026DS006,Probability and Statistics,60
+DEMO2026DS007,Probability and Statistics,79
+,Probability and Statistics,80
+DEMO2026DS009,Probability and Statistics,99
+DEMO2026DS010,Probability and Statistics,100
+DEMO2026DS011,Probability and Statistics,119
+DEMO2026DS012,Probability and Statistics,120
+DEMO2026DS013,Probability and Statistics,139
+DEMO2026DS014," probability and statistics ",140
+DEMO2026DS015,Probability and Statistics,159
+DEMO2026DS016,Probability and Statistics,160
+DEMO2026DS017,Probability and Statistics,146
+DEMO2026DS018,Probability and Statistics,180
+DEMO2026DS019,Probability and Statistics,112
+DEMO2026DS020,Probability and Statistics,146
+DEMO2026DS021,Probability and Statistics,180
+DEMO2026DS022,Probability and Statistics,112
+DEMO2026DS023,Probability and Statistics,146
+DEMO2026DS024,Probability and Statistics,180
+DEMO2026DS025,Probability and Statistics,112
+DEMO2026DS026,Probability and Statistics,146
+DEMO2026DS027," probability and statistics ",180
+DEMO2026DS028,Probability and Statistics,112
+DEMO2026DS029,Probability and Statistics,146
+DEMO2026DS030,Probability and Statistics,180
+DEMO2026DS031,Probability and Statistics,112
+DEMO2026DS032,Probability and Statistics,146
+DEMO2026DS033,Probability and Statistics,180
+DEMO2026DS034,Probability and Statistics,112
+DEMO2026DS035,Probability and Statistics,146
+DEMO2026DS036,Probability and Statistics,180
+DEMO2026DS037,Probability and Statistics,112
+DEMO2026DS038,Probability and Statistics,146
+DEMO2026DS039,Probability and Statistics,180
+DEMO2026DS040," probability and statistics ",112
+DEMO2026DS041,Probability and Statistics,146
+DEMO2026DS042,Probability and Statistics,180
+DEMO2026DS043,Probability and Statistics,112
+DEMO2026DS044,Probability and Statistics,146
+DEMO2026DS045,Probability and Statistics,180
+DEMO2026DS046,Probability and Statistics,112
+DEMO2026DS047,Probability and Statistics,146
+DEMO2026DS048,Probability and Statistics,180
+DEMO2026DS049,Probability and Statistics,112
+DEMO2026DS050,Probability and Statistics,146
+DEMO2026DS051,Probability and Statistics,180
+DEMO2026DS052,Probability and Statistics,112
+DEMO2026DS053," probability and statistics ",146
+DEMO2026DS054,Probability and Statistics,180
+DEMO2026DS055,Probability and Statistics,112
+DEMO2026DS056,Probability and Statistics,146
+DEMO2026DS057,Probability and Statistics,180
+DEMO2026DS058,Probability and Statistics,112
+DEMO2026DS059,Probability and Statistics,146
+DEMO2026DS060,Probability and Statistics,180
+DEMO2026DS001,Python Programming,0
+DEMO2026DS002,Python Programming,100
+DEMO2026DS003,Python Programming,19
+DEMO2026DS004,Python Programming,20
+DEMO2026DS005,Python Programming,29
+DEMO2026DS006,Python Programming,30
+DEMO2026DS007,Python Programming,39
+DEMO2026DS008,Python Programming,40
+DEMO2026DS009,Python Programming,49
+DEMO2026DS010,,50
+DEMO2026DS011,Python Programming,59
+DEMO2026DS012,Python Programming,60
+DEMO2026DS013,Python Programming,69
+DEMO2026DS014," python programming ",70
+DEMO2026DS015,Python Programming,79
+DEMO2026DS016,Python Programming,80
+DEMO2026DS017,Python Programming,84
+DEMO2026DS018,Python Programming,50
+DEMO2026DS019,Python Programming,67
+DEMO2026DS020,Python Programming,84
+DEMO2026DS021,Python Programming,50
+DEMO2026DS022,Python Programming,67
+DEMO2026DS023,Python Programming,84
+DEMO2026DS024,Python Programming,50
+DEMO2026DS025,Python Programming,67
+DEMO2026DS026,Python Programming,84
+DEMO2026DS027," python programming ",50
+DEMO2026DS028,Python Programming,67
+DEMO2026DS029,Python Programming,84
+DEMO2026DS030,Python Programming,50
+DEMO2026DS031,Python Programming,67
+DEMO2026DS032,Python Programming,84
+DEMO2026DS033,Python Programming,50
+DEMO2026DS034,Python Programming,67
+DEMO2026DS035,Python Programming,84
+DEMO2026DS036,Python Programming,50
+DEMO2026DS037,Python Programming,67
+DEMO2026DS038,Python Programming,84
+DEMO2026DS039,Python Programming,50
+DEMO2026DS040," python programming ",67
+DEMO2026DS041,Python Programming,84
+DEMO2026DS042,Python Programming,50
+DEMO2026DS043,Python Programming,67
+DEMO2026DS044,Python Programming,84
+DEMO2026DS045,Python Programming,50
+DEMO2026DS046,Python Programming,67
+DEMO2026DS047,Python Programming,84
+DEMO2026DS048,Python Programming,50
+DEMO2026DS049,Python Programming,67
+DEMO2026DS050,Python Programming,84
+DEMO2026DS051,Python Programming,50
+DEMO2026DS052,Python Programming,67
+DEMO2026DS053," python programming ",84
+DEMO2026DS054,Python Programming,50
+DEMO2026DS055,Python Programming,67
+DEMO2026DS056,Python Programming,84
+DEMO2026DS057,Python Programming,50
+DEMO2026DS058,Python Programming,67
+DEMO2026DS059,Python Programming,84
+DEMO2026DS060,Python Programming,50
+DEMO2026DS001,Machine Learning,0
+DEMO2026DS002,Machine Learning,300
+DEMO2026DS003,Machine Learning,59
+DEMO2026DS004,Machine Learning,60
+DEMO2026DS005,Machine Learning,89
+DEMO2026DS006,Machine Learning,90
+DEMO2026DS007,Machine Learning,119
+DEMO2026DS008,Machine Learning,120
+DEMO2026DS009,Machine Learning,149
+DEMO2026DS010,Machine Learning,150
+DEMO2026DS011,Machine Learning,179
+DEMO2026DS012,Machine Learning,180
+DEMO2026DS013,Machine Learning,209
+DEMO2026DS014," machine learning ",210
+DEMO2026DS015,Machine Learning,239
+DEMO2026DS016,Machine Learning,240
+DEMO2026DS017,Machine Learning,285
+DEMO2026DS018,Machine Learning,183
+DEMO2026DS019,Machine Learning,234
+DEMO2026DS020,Machine Learning,285
+DEMO2026DS021,Machine Learning,183
+DEMO2026DS022,Machine Learning,234
+DEMO2026DS023,Machine Learning,285
+DEMO2026DS024,Machine Learning,183
+DEMO2026DS025,Machine Learning,234
+DEMO2026DS026,Machine Learning,285
+DEMO2026DS027," machine learning ",183
+DEMO2026DS028,Machine Learning,234
+DEMO2026DS029,Machine Learning,285
+DEMO2026DS030,Machine Learning,183
+DEMO2026DS031,Machine Learning,234
+DEMO2026DS032,Machine Learning,285
+DEMO2026DS033,Machine Learning,183
+DEMO2026DS034,Machine Learning,234
+DEMO2026DS035,Machine Learning,285
+DEMO2026DS036,Machine Learning,183
+DEMO2026DS037,Machine Learning,234
+DEMO2026DS038,Machine Learning,285
+DEMO2026DS039,Machine Learning,183
+DEMO2026DS040," machine learning ",234
+DEMO2026DS041,Machine Learning,285
+DEMO2026DS042,Machine Learning,183
+DEMO2026DS043,Machine Learning,234
+DEMO2026DS044,Machine Learning,285
+DEMO2026DS045,Machine Learning,183
+DEMO2026DS046,Machine Learning,234
+DEMO2026DS047,Machine Learning,285
+DEMO2026DS048,Machine Learning,183
+DEMO2026DS049,Machine Learning,234
+DEMO2026DS050,Machine Learning,285
+DEMO2026DS051,Machine Learning,183
+DEMO2026DS052,Machine Learning,234
+DEMO2026DS053," machine learning ",285
+DEMO2026DS054,Machine Learning,183
+DEMO2026DS055,Machine Learning,234
+DEMO2026DS056,Machine Learning,285
+DEMO2026DS057,Machine Learning,183
+DEMO2026DS058,Machine Learning,234
+DEMO2026DS059,Machine Learning,285
+DEMO2026DS060,Machine Learning,183
+DEMO2026DS001,Database Systems,0
+DEMO2026DS002,Database Systems,150
+DEMO2026DS003,Database Systems,29
+DEMO2026DS004,Database Systems,30
+DEMO2026DS005,Database Systems,44
+DEMO2026DS006,Database Systems,45
+DEMO2026DS007,Database Systems,59
+DEMO2026DS008,Database Systems,60
+DEMO2026DS009,Database Systems,74
+DEMO2026DS010,Database Systems,75
+DEMO2026DS011,Database Systems,89
+DEMO2026DS012,Database Systems,90
+DEMO2026DS013,Database Systems,104
+DEMO2026DS014," database systems ",105
+DEMO2026DS015,Database Systems,119
+DEMO2026DS016,Database Systems,120
+DEMO2026DS017,Database Systems,83
+DEMO2026DS018,Database Systems,108
+DEMO2026DS019,Database Systems,134
+DEMO2026DS020,Database Systems,83
+DEMO2026DS021,Database Systems,108
+DEMO2026DS022,Database Systems,134
+DEMO2026DS023,Database Systems,83
+DEMO2026DS024,Database Systems,108
+DEMO2026DS025,Database Systems,134
+DEMO2026DS026,Database Systems,83
+DEMO2026DS027," database systems ",108
+DEMO2026DS028,Database Systems,134
+DEMO2026DS029,Database Systems,83
+DEMO2026DS030,Database Systems,108
+DEMO2026DS031,Database Systems,134
+DEMO2026DS032,Database Systems,83
+DEMO2026DS033,Database Systems,108
+DEMO2026DS034,Database Systems,134
+DEMO2026DS035,Database Systems,83
+DEMO2026DS036,Database Systems,108
+DEMO2026DS037,Database Systems,134
+DEMO2026DS038,Database Systems,83
+DEMO2026DS039,Database Systems,108
+DEMO2026DS040," database systems ",134
+DEMO2026DS041,Database Systems,83
+DEMO2026DS042,Database Systems,108
+DEMO2026DS043,Database Systems,134
+DEMO2026DS044,Database Systems,83
+DEMO2026DS045,Database Systems,108
+DEMO2026DS046,Database Systems,134
+DEMO2026DS047,Database Systems,83
+DEMO2026DS048,Database Systems,108
+DEMO2026DS049,Database Systems,134
+DEMO2026DS050,Database Systems,83
+DEMO2026DS051,Database Systems,108
+DEMO2026DS052,Database Systems,134
+DEMO2026DS053," database systems ",83
+DEMO2026DS054,Database Systems,108
+DEMO2026DS055,Database Systems,134
+DEMO2026DS056,Database Systems,83
+DEMO2026DS057,Database Systems,108
+DEMO2026DS058,Database Systems,134
+DEMO2026DS059,Database Systems,83
+DEMO2026DS060,Database Systems,108
+DEMO2026DS001," MATHEMATICS FOR DATA SCIENCE ",400

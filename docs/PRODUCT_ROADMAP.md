@@ -1,32 +1,35 @@
-# Product direction after debugging
+# Product roadmap
 
-The current stage fixes the supplied HTML app and records evidence. It does not deploy the app, migrate frameworks, or claim production readiness.
+## Completed: Stage 1 debugging
 
-## Stage 2 — Make the workflow usable
+The provided HTML app was fixed and documented in [the bug log](BUG_FIX_LOG.md). Its source and regression suite remain intact as the challenge baseline.
 
-Preserve the core contract: select a course, inspect validated marks, configure complete grade bands, review every student's assigned grade, and export without silent omissions.
+## Implemented: Stage 2 product rebuild
 
-Prioritize these improvements:
+The active application is now a Next.js workspace with a redesigned responsive interface. It preserves the original grading contract while adding structured imports, record review and a clearer export process.
 
-1. **Guided ingestion:** Excel and CSV first, followed by structured JSON. Provide column mapping, preview, per-row errors and a clear policy for duplicate identities and multiple worksheets. Reuse one normalized data contract across formats. Never silently round marks or drop rows.
-2. **Review before export:** searchable student table, grade and boundary filters, grade-change preview, and a reconciliation showing imported, graded, and exported record counts.
-3. **Grading drafts:** retain settings per course, support undo/reset, and show unsaved changes. Decide whether drafts stay on the device or require accounts before introducing storage.
-4. **Analytics that answer instructor questions:** distribution counts, mean/median, boundary students and the effect of changing thresholds. Provide text/table alternatives to charts.
-5. **Clear, accessible interaction:** consistent labeled controls, keyboard workflows, responsive layout, readable contrast, and actionable errors beside affected data.
-6. **Reliable exports:** previews, course-specific filenames, explicit metadata, and spreadsheet output that preserves identifier strings. Verify record reconciliation and safe text handling.
+- **Ingestion:** Excel, CSV, TSV and JSON; worksheet selection and column mapping; shared validation; per-course maximum-mark confirmation and percentage normalization; row errors; sample data and downloadable templates.
+- **Analytics:** count, mean, median, minimum, maximum, marks histogram and live grade counts.
+- **Review:** student search, grade filtering, mark sorting, pagination, a near-cutoff filter and distance to the next grade.
+- **Grading:** per-course session settings, reset, undo, complete grade coverage and before/after impact review; post-import course-total correction.
+- **Exports:** preview, student reconciliation, all-course-record export regardless of table filters, course-specific filenames and escaped CSV content.
+- **Drafts:** explicit on-device saving, resuming, updating and deletion, with validation of restored data.
+- **Usability:** responsive layout, labeled controls, visible keyboard focus, accessible dialogs and local fonts.
 
-These address UI, analytics, interactions, product features, validation, responsiveness, accessibility and exports without adding features merely to fill categories.
+See [migration details](NEXTJS_MIGRATION.md) for intentional behavior changes, data handling and limits.
 
-## Stage 3 — Next.js and deployment
+## Remaining review and future work
 
-For the final deployment phase, migrate to Next.js while preserving the grading rules and regression coverage. Port pure ingestion, validation, grading and export logic into testable modules, then build the application UI around them.
+1. Human screen-reader testing, instructor feedback and cross-browser verification beyond Chrome.
+2. Deployment smoke tests and operational review of the chosen hosting environment.
+3. Optional future account-based collaboration only after deciding permissions and student-data handling.
 
-Before the deployment commit:
+Excel export was explicitly excluded from the current feature request; CSV remains the output format.
 
-- Complete browser tests with real workbooks, CSVs and JSON fixtures, including invalid inputs and grading boundaries.
-- Package and review dependencies; replace reliance on a floating CDN script.
-- Decide data handling, persistence and access requirements. A client-only workflow can avoid uploading student records to a server; server storage needs an explicit product decision.
-- Verify mobile layout, keyboard navigation, accessible errors, export fidelity and production build.
-- Deploy the finished app, smoke-test its public URL, and include the bug log plus a concise enhancement summary in the submission.
+## Stage 3: deployment
 
-Migration is a planned deliverable, not part of the current Stage 1 changes.
+The Next.js migration is implemented; public deployment remains separate work.
+
+Before publishing, run the tests and production build on the final revision, verify the target environment, and smoke-test the hosted URL with the fictional fixtures. Include the original bug log, the enhancement summary and the repository link in the submission.
+
+Student data stays in browser memory unless the instructor explicitly saves a draft in this browser. No backend or accounts are used. Any future server storage requires an explicit product decision.
