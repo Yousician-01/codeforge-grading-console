@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import fs from 'node:fs/promises';
 import Papa from 'papaparse';
-import AxeBuilder from '@axe-core/playwright';
+import { analyzeAccessibility } from './accessibility.js';
 
 const sample = 'tests/fixtures/grading-sample.xlsx';
 const uploader = page => page.getByLabel('Upload marks file', { exact: true });
@@ -209,7 +209,7 @@ test('workspace and dialogs have no automatically detectable WCAG AA violations'
   for (const surface of ['workspace', 'export', 'guide']) {
     if (surface === 'export') await page.getByRole('button', { name: 'Review & export' }).first().click();
     if (surface === 'guide') await page.getByRole('button', { name: 'Help and import guide' }).click();
-    const result = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze();
+    const result = await analyzeAccessibility(page);
     expect(result.violations.map(v => ({ id: v.id, nodes: v.nodes.map(n => ({ target: n.target, summary: n.failureSummary })) }))).toEqual([]);
     if (surface !== 'workspace') await page.getByRole('button', { name: 'Close dialog' }).click();
   }

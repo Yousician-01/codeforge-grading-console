@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import AxeBuilder from '@axe-core/playwright';
+import { analyzeAccessibility } from './accessibility.js';
 import { DRAFT_KEY } from '../../lib/workflows.mjs';
 
 async function sample(page) {
@@ -12,7 +12,7 @@ async function applyRanges(page) {
   await page.getByRole('button', { name: 'Apply reviewed changes' }).click();
 }
 async function checkAccessibility(page) {
-  const result = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze();
+  const result = await analyzeAccessibility(page);
   expect(result.violations.map(v => ({ id: v.id, nodes: v.nodes.map(n => ({ target: n.target, summary: n.failureSummary })) }))).toEqual([]);
 }
 
